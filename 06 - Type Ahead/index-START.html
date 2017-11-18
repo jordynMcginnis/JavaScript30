@@ -8,14 +8,42 @@
 <body>
 
   <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
-    <ul class="suggestions">
+    <input type="text" class="search" placeholder="City or State" >
+    <ul class="suggestions" id='city-list'>
       <li>Filter for a city</li>
       <li>or a state</li>
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+var list = document.querySelector('ul');
+
+var endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+var cities = [];
+var testWord = 'new';
+var fitleredCities = [];
+fetch(endpoint).then(function(response){
+  response.json().then(function(data){
+    cities = data;
+    // filterCity();
+  })
+})
+
+document.querySelector('.search').addEventListener('keyup', filterCity);
+
+function filterCity(e){
+  list.innerHTML = ''
+
+  filteredCities = cities.filter(function(item){
+    return item.city.indexOf(e.target.value) > -1;
+  });
+
+  filteredCities.forEach(function(item){
+    var li = document.createElement('li');
+    li.innerText = item.city + '  ' + item.population;
+    list.appendChild(li);
+  })
+}
+
 
 </script>
   </body>
