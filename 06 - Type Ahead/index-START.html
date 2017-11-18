@@ -32,9 +32,8 @@ document.querySelector('.search').addEventListener('keyup', filterCity);
 
 function filterCity(e){
   list.innerHTML = ''
-
   filteredCities = cities.filter(function(item){
-    return item.city.indexOf(e.target.value) > -1;
+    return item.city.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1;
   });
 
   filteredCities.forEach(function(item){
